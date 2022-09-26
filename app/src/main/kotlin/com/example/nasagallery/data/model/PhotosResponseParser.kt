@@ -2,10 +2,6 @@ package com.example.nasagallery.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class PhotosResponseParser(
-	var photosResponse: List<PhotosParser>?
-)
-
 data class PhotosParser(
 
 	@field:SerializedName("date")
