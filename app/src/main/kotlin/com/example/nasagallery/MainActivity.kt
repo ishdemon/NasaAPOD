@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
+import com.example.nasagallery.common.hideSystemUI
 import com.example.nasagallery.ui.home.HomeScreen
 import com.example.nasagallery.ui.theme.NasaGalleryTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,18 +25,5 @@ class MainActivity : ComponentActivity() {
                 // A surface container using the 'background' color from the theme
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    NasaGalleryTheme {
-        Greeting("Android")
     }
 }

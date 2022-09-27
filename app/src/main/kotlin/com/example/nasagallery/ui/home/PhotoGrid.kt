@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CornerSize
@@ -23,6 +24,7 @@ import com.example.nasagallery.ui.theme.Black500
 @Composable
 fun PhotoGrid(
     modifier: Modifier = Modifier,
+    gridState: LazyGridState,
     photos: List<PhotoDetails>,
     onPhotoClicked: (PhotoDetails) -> Unit
 ) {
@@ -39,6 +41,7 @@ fun PhotoGrid(
     ) {
 
         LazyVerticalGrid(
+            state = gridState,
             columns = GridCells.Fixed(2),
             contentPadding = PaddingValues(8.dp)
         ) {
@@ -49,7 +52,7 @@ fun PhotoGrid(
                     Card(
                         shape = MaterialTheme.shapes.extraLarge,
                         elevation = 8.dp,
-                        modifier = Modifier.padding(all = 8.dp)
+                        modifier = Modifier.padding(all = 12.dp)
                     ) {
                         CoilImage(
                             modifier = Modifier.height(300.dp),
