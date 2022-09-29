@@ -66,7 +66,7 @@ fun DetailsColumn(
             Text(
                 overflow = TextOverflow.Visible,
                 text = details.info,
-                style = MaterialTheme.typography.labelMedium,
+                style = MaterialTheme.typography.titleSmall,
                 color = lightWhite,
                 textAlign = TextAlign.Start
             )

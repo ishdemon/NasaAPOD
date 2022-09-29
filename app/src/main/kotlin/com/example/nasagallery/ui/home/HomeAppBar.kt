@@ -35,6 +35,7 @@ fun HomeAppBar(
                 style = MaterialTheme.typography.titleSmall,
                 color = Color.White,
                 fontSize = 28.sp,
+                letterSpacing = 2.sp,
                 textAlign = TextAlign.Center
             )
         },
