@@ -35,6 +35,7 @@ import com.example.nasagallery.common.DataState.Error
 import com.example.nasagallery.common.DataState.Loading
 import com.example.nasagallery.common.DataState.Success
 import com.example.nasagallery.ui.components.FullScreenLoader
+import com.example.nasagallery.ui.components.GenericErrorMessage
 import com.example.nasagallery.ui.destinations.DetailsScreenDestination
 import com.example.nasagallery.ui.theme.Black80
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
@@ -105,8 +106,16 @@ fun HomeScreen(
         }
     ) {
         when (val state = photoDetailsState.value) {
-            Empty -> {}
-            is Error -> {}
+            Empty -> {
+                GenericErrorMessage(
+                    modifier = Modifier.padding(it)
+                )
+            }
+            is Error -> {
+                GenericErrorMessage(
+                    modifier = Modifier.padding(it)
+                )
+            }
             Loading -> {
                 FullScreenLoader(
                     modifier = Modifier.padding(it)
