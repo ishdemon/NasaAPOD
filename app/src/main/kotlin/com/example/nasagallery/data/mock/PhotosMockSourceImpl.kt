@@ -17,6 +17,6 @@ class PhotosMockSourceImpl@Inject constructor(
            context.getJSONFromAssets("data.json"),
             Array<PhotosParser>::class.java
         )
-        return response?.map { PhotoDetails.fromParser(it) } ?: emptyList()
+        return response?.map { PhotoDetails.fromParser(it) }?: throw IllegalStateException("Photos null")
     }
 }

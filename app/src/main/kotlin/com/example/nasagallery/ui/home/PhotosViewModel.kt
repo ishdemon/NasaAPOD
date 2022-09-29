@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.nasagallery.common.DataState
 import com.example.nasagallery.data.model.PhotoDetails
 import com.example.nasagallery.data.repository.PhotosRepository
+import com.example.nasagallery.di.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PhotosViewModel @Inject constructor(
-    private val repository: PhotosRepository
+    private val repository: PhotosRepository,
+    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ): ViewModel() {
 
     private val _photoDetailsState = MutableStateFlow<DataState<List<PhotoDetails>>>(DataState.Empty)
@@ -31,10 +34,10 @@ class PhotosViewModel @Inject constructor(
         viewModelScope.launch {
             _photoDetailsState.value = DataState.Loading
             try {
-                val result = withContext(Dispatchers.IO) {
+                val result = withContext(ioDispatcher) {
                     repository.getPhotos()
                 }
-                Log.wtf("fetchPhotos",result.toString())
+                //Log.wtf("fetchPhotos",result.toString())
                 delay(500)
                 _photoDetailsState.value = DataState.Success(result)
             } catch (error: Throwable) {
