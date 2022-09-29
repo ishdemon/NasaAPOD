@@ -2,6 +2,7 @@ package com.example.nasagallery.ui.details
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -26,7 +27,7 @@ import com.example.nasagallery.ui.theme.lightWhite
 import com.example.nasagallery.ui.theme.white200
 
 @Composable
-fun DetailsColumn(
+fun ColumnScope.DetailsColumn(
     modifier: Modifier = Modifier,
     details: PhotoDetails
 ) {

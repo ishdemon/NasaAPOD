@@ -1,5 +1,6 @@
 package com.example.nasagallery.ui.details
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,12 +13,18 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import coil.annotation.ExperimentalCoilApi
 import com.example.nasagallery.common.DataState.Success
+import com.example.nasagallery.ui.components.FieldState
 import com.example.nasagallery.ui.components.PagerIndicator
 import com.example.nasagallery.ui.home.PhotosViewModel
 import com.example.nasagallery.ui.theme.NasaGalleryTheme
@@ -27,7 +34,7 @@ import com.google.accompanist.pager.rememberPagerState
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.ramcosta.composedestinations.annotation.Destination
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoilApi::class, ExperimentalPagerApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalPagerApi::class)
 @Destination
 @Composable
 fun DetailsScreen(
@@ -38,6 +45,9 @@ fun DetailsScreen(
     //val viewModel: PhotosViewModel = hiltViewModel()
     val photoDetailsState = viewModel.photoDetailsState.collectAsState()
     val systemUiController = rememberSystemUiController()
+    val zoomedIn = remember {
+        FieldState<Boolean>(false)
+    }
 
     SideEffect {
         systemUiController.setStatusBarColor(
@@ -73,9 +83,12 @@ fun DetailsScreen(
                         ) {
                             DetailImageCard(
                                 modifier = Modifier.padding(it),
-                                details = details.data[page]
+                                details = details.data[page],
+                                zoomedIn = zoomedIn
                             )
-                            DetailsColumn(details = details.data[page])
+                            AnimatedVisibility(visible = !zoomedIn.valueState.value) {
+                                DetailsColumn(details = details.data[page])
+                            }
                         }
                     }
                 }
