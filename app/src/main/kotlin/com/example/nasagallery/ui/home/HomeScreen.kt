@@ -1,5 +1,6 @@
 package com.example.nasagallery.ui.home
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -29,21 +29,29 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.nasagallery.R
 import com.example.nasagallery.common.DataState.Empty
 import com.example.nasagallery.common.DataState.Error
 import com.example.nasagallery.common.DataState.Loading
 import com.example.nasagallery.common.DataState.Success
+import com.example.nasagallery.ui.components.FullScreenLoader
+import com.example.nasagallery.ui.destinations.DetailsScreenDestination
 import com.example.nasagallery.ui.theme.Black80
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalAnimationApi::class)
+@RootNavGraph(start = true)
+@Destination
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: PhotosViewModel,
+    navigator: DestinationsNavigator
 ) {
-    val viewModel: PhotosViewModel = viewModel()
+    //val viewModel: PhotosViewModel = hiltViewModel()
     val photoDetailsState = viewModel.photoDetailsState.collectAsState()
     val systemUiController = rememberSystemUiController()
     val scrollState = rememberLazyGridState()
@@ -54,10 +62,6 @@ fun HomeScreen(
             color = Color.Transparent,
             darkIcons = false
         )
-        // setStatusBarsColor() and setNavigationBarsColor() also exist
-    }
-    LaunchedEffect(Unit) {
-        viewModel.fetchPhotos()
     }
     Image(
         modifier = Modifier.fillMaxWidth(),
@@ -103,16 +107,19 @@ fun HomeScreen(
         when (val state = photoDetailsState.value) {
             Empty -> {}
             is Error -> {}
-            Loading -> {}
+            Loading -> {
+                FullScreenLoader(
+                    modifier = Modifier.padding(it)
+                )
+            }
             is Success -> {
-                //val padding by animateFloatAsState(if (scrolled>0) 0f else 300f)
                 PhotoGrid(
                     gridState = scrollState,
                     modifier = modifier
                         .padding(paddingValues = it),
                     photos = state.data,
-                    onPhotoClicked = {
-
+                    onPhotoClicked = { index ->
+                        navigator.navigate(DetailsScreenDestination(index))
                     }
                 )
             }

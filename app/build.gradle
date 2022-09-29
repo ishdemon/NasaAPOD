@@ -3,6 +3,7 @@ plugins {
   id 'org.jetbrains.kotlin.android'
   id 'kotlin-kapt'
   id 'dagger.hilt.android.plugin'
+  id 'com.google.devtools.ksp' version '1.7.10-1.0.6'
 }
 
 android {
@@ -45,6 +46,13 @@ android {
       excludes += '/META-INF/{AL2.0,LGPL2.1}'
     }
   }
+  applicationVariants.all {
+    kotlin.sourceSets {
+      getByName(name) {
+        kotlin.srcDir("build/generated/ksp/$name/kotlin")
+      }
+    }
+  }
 }
 
 dependencies {
@@ -60,7 +68,15 @@ dependencies {
   implementation 'androidx.compose.material3:material3:1.0.0-beta03'
   implementation 'com.github.nesyou01:LazyStaggeredGrid:1.2.0'
   implementation "me.onebone:toolbar-compose:2.3.4"
+
+  // Accompianist
   implementation "com.google.accompanist:accompanist-systemuicontroller:0.26.4-beta"
+  implementation "com.google.accompanist:accompanist-placeholder-material:0.26.4-beta"
+  implementation "com.google.accompanist:accompanist-pager:0.26.4-beta"
+
+  //Compose Destination
+  ksp "io.github.raamcosta.compose-destinations:ksp:$compose_destination_version"
+  implementation "io.github.raamcosta.compose-destinations:animations-core:$compose_destination_version"
 
   // Arch MVVM
   implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
@@ -79,6 +95,8 @@ dependencies {
   // DI
   implementation "com.google.dagger:hilt-android:2.42"
   kapt "com.google.dagger:hilt-compiler:2.42"
+  implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+
 
   // Testing
   testImplementation 'junit:junit:4.13.2'

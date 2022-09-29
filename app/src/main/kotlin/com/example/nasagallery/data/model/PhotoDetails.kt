@@ -15,7 +15,7 @@ data class PhotoDetails(
             return with(parser) {
                 PhotoDetails(
                     date = date?:"",
-                    copyright = copyright?:"",
+                    copyright = copyright?:"----",
                     title = title?:"",
                     info = explanation?:"",
                     url = url?:"",

@@ -2,6 +2,7 @@ package com.example.nasagallery.ui.components
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -17,20 +18,21 @@ import com.example.nasagallery.R
 fun CoilImage(
     modifier: Modifier = Modifier,
     imageUrl: String,
-    placeholder: Int = R.drawable.image_placeholder,
+    loadState: (Boolean) -> Unit,
     contentDescription: String = "",
-    isSquare: Boolean = false,
     contentScale: ContentScale = ContentScale.Crop
 ) {
-    if (isSquare) modifier.size(200.dp)
     AsyncImage(
         model = ImageRequest.Builder(LocalContext.current)
             .data(imageUrl)
             .crossfade(true)
-            .placeholder(placeholder)
+            //.placeholder(placeholder)
             .build(),
         contentDescription = contentDescription,
         contentScale = contentScale,
         modifier = modifier,
+        onSuccess = {
+            loadState(true)
+        }
     )
 }
