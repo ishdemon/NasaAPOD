@@ -40,7 +40,7 @@ fun DetailsScreen(
     //val viewModel: PhotosViewModel = hiltViewModel()
     val photoDetailsState = viewModel.photoDetailsState.collectAsState()
     val systemUiController = rememberSystemUiController()
-    val zoomedIn = remember {
+    val isFullScreen = remember {
         FieldState<Boolean>(false)
     }
 
@@ -79,9 +79,9 @@ fun DetailsScreen(
                             DetailImageCard(
                                 modifier = Modifier.padding(it),
                                 details = details.data[page],
-                                zoomedIn = zoomedIn
+                                isFullScreen = isFullScreen
                             )
-                            AnimatedVisibility(visible = !zoomedIn.valueState.value) {
+                            AnimatedVisibility(visible = !isFullScreen.valueState.value) {
                                 DetailsColumn(details = details.data[page])
                             }
                         }

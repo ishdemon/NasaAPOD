@@ -32,9 +32,9 @@ import com.google.accompanist.placeholder.shimmer
 fun ColumnScope.DetailImageCard(
     modifier: Modifier = Modifier,
     details: PhotoDetails,
-    zoomedIn: FieldState<Boolean>
+    isFullScreen: FieldState<Boolean>
 ) {
-    var isClicked = zoomedIn.valueState.value
+    var isClicked = isFullScreen.valueState.value
     var isLoaded by rememberSaveable { mutableStateOf(false) }
     Card(
         elevation = CardDefaults.elevatedCardElevation(4.dp),
@@ -63,11 +63,11 @@ fun ColumnScope.DetailImageCard(
             IconButton(
                 onClick = {
                     isClicked = !isClicked
-                    zoomedIn.updateValue(isClicked)
+                    isFullScreen.updateValue(isClicked)
                 },
                 modifier = modifier.size(56.dp).align(Alignment.BottomEnd).padding(end = 4.dp, top = 4.dp)
             ) {
-                if (zoomedIn.valueState.value) {
+                if (isFullScreen.valueState.value) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_fullscreen_exit),
                         modifier = Modifier,
